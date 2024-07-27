@@ -165,8 +165,13 @@ main(void)
         fprintf(2, "cannot cd %s\n", buf+3);
       continue;
     }
+    // 创建子进程
+    // 父进程中fork1()返回创建的子进程pid
+    // 子进程中fork1()执行成功返回0，所以子进程才会执行runcmd()
     if(fork1() == 0)
+      // 在子进程中执行shell中输入的程序
       runcmd(parsecmd(buf));
+      // 父进程等待子进程执行结束
     wait(0);
   }
   exit(0);
